@@ -21,14 +21,11 @@
   .metric-sub { font-size: 11px; color: #999; margin-top: 3px; }
   .card { background: #fff; border: 1px solid #e8e6e0; border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 10px; }
   .row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+  .row:last-child { margin-bottom: 0; }
   .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
   .dot-teal { background: #1D9E75; } .dot-amber { background: #BA7517; } .dot-red { background: #E24B4A; } .dot-gray { background: #aaa; }
   .row-text { font-size: 14px; color: #333; line-height: 1.65; }
   .row-text strong { font-weight: 600; color: #111; }
-  .table-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0ede8; font-size: 14px; }
-  .table-row:last-child { border-bottom: none; }
-  .table-key { color: #777; }
-  .table-val { font-weight: 600; color: #111; text-align: right; }
   .cond-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); gap: 10px; margin-bottom: 1rem; }
   .cond-card { background: #f5f4f0; border-radius: 10px; padding: .875rem 1rem; }
   .cond-title { font-size: 13px; font-weight: 600; color: #111; margin: 0 0 3px; }
@@ -67,9 +64,9 @@
 </head>
 <body>
 <div class="container">
-
 <div id="slides">
 
+  <!-- SLIDE 1 -->
   <div class="slide active" id="s0">
     <p class="slide-header">slide 1 of 5</p>
     <h1 class="slide-title">私たちの現在地</h1>
@@ -84,6 +81,7 @@
     <div class="row"><div class="dot dot-amber"></div><p class="row-text">頭金・諸費用・手元の余裕を確保するためには、投資資産の一部売却が前提になる</p></div>
   </div>
 
+  <!-- SLIDE 2 -->
   <div class="slide" id="s1">
     <p class="slide-header">slide 2 of 5</p>
     <h1 class="slide-title">物件に求める条件と相場感</h1>
@@ -94,7 +92,6 @@
       <div class="cond-card"><p class="cond-title">キッチン</p><p class="cond-desc">料理がしやすい広さ・設備</p></div>
       <div class="cond-card"><p class="cond-title">2LDK以上（部屋2つ）</p><p class="cond-desc">病気のときに隔離できる部屋が確保できること</p></div>
     </div>
-    
     <p class="section-label">3,500万円で現実的に見えてくるライン</p>
     <div style="overflow-x:auto;margin-bottom:12px">
       <table class="area-table" style="min-width:560px">
@@ -102,25 +99,60 @@
           <tr><th>エリア</th><th>中古マンション</th><th>中古戸建</th><th>築年数</th><th>広さ</th><th>間取り</th></tr>
         </thead>
         <tbody>
-          <tr><td class="area-name">23区人気エリア<br><span style="font-weight:400;font-size:11px;color:#888">目黒・世田谷・杉並</span></td><td><span style="color:#E24B4A">かなり厳しい</span></td><td><span style="color:#E24B4A">ほぼ厳しい</span></td><td>築40〜50年級</td><td>40〜55㎡</td><td>1LDK〜狭2LDK</td></tr>
-          <tr><td class="area-name">23区東側<br><span style="font-weight:400;font-size:11px;color:#888">足立・葛飾・江戸川</span></td><td><span style="color:#1D9E75">可能</span></td><td><span style="color:#BA7517">一部可能</span></td><td>築25〜40年</td><td>50〜65㎡</td><td>2LDK〜3LDK</td></tr>
-          <tr><td class="area-name">23区北側<br><span style="font-weight:400;font-size:11px;color:#888">板橋・練馬北</span></td><td><span style="color:#BA7517">やや可能</span></td><td><span style="color:#BA7517">条件付き可能</span></td><td>築25〜40年</td><td>50〜70㎡</td><td>2LDK</td></tr>
-          <tr><td class="area-name">東京市部<br><span style="font-weight:400;font-size:11px;color:#888">立川・八王子・町田</span></td><td><span style="color:#1D9E75">かなり現実的</span></td><td><span style="color:#1D9E75">現実的</span></td><td>築15〜30年</td><td>60〜80㎡</td><td>2LDK〜3LDK</td></tr>
-          <tr><td class="area-name">鎌倉近郊</td><td><span style="color:#E24B4A">マンションは厳しめ</span></td><td><span style="color:#BA7517">可能性あり</span></td><td>築25〜45年</td><td>55〜80㎡</td><td>2LDK〜3LDK</td></tr>
-          <tr><td class="area-name">三島・沼津</td><td><span style="color:#1D9E75">かなり余裕あり</span></td><td><span style="color:#1D9E75">かなり余裕あり</span></td><td>築10〜25年</td><td>70〜100㎡</td><td>3LDK〜4LDK</td></tr>
-          <tr><td class="area-name">熱海</td><td><span style="color:#BA7517">かなり特殊</span></td><td><span style="color:#BA7517">戸建も可能</span></td><td>築古リゾート多め</td><td>広め</td><td>管理費重め</td></tr>
+          <tr>
+            <td class="area-name">23区人気エリア<br><span style="font-weight:400;font-size:11px;color:#888">目黒・世田谷・杉並</span></td>
+            <td><span style="color:#E24B4A">かなり厳しい</span></td>
+            <td><span style="color:#E24B4A">ほぼ厳しい</span></td>
+            <td>築40〜50年級</td><td>40〜55㎡</td><td>1LDK〜狭2LDK</td>
+          </tr>
+          <tr>
+            <td class="area-name">23区東側<br><span style="font-weight:400;font-size:11px;color:#888">足立・葛飾・江戸川</span></td>
+            <td><span style="color:#1D9E75">可能</span></td>
+            <td><span style="color:#BA7517">一部可能</span></td>
+            <td>築25〜40年</td><td>50〜65㎡</td><td>2LDK〜3LDK</td>
+          </tr>
+          <tr>
+            <td class="area-name">23区北側<br><span style="font-weight:400;font-size:11px;color:#888">板橋・練馬北</span></td>
+            <td><span style="color:#BA7517">やや可能</span></td>
+            <td><span style="color:#BA7517">条件付き可能</span></td>
+            <td>築25〜40年</td><td>50〜70㎡</td><td>2LDK</td>
+          </tr>
+          <tr>
+            <td class="area-name">東京市部<br><span style="font-weight:400;font-size:11px;color:#888">立川・八王子・町田</span></td>
+            <td><span style="color:#1D9E75">かなり現実的</span></td>
+            <td><span style="color:#1D9E75">現実的</span></td>
+            <td>築15〜30年</td><td>60〜80㎡</td><td>2LDK〜3LDK</td>
+          </tr>
+          <tr>
+            <td class="area-name">鎌倉近郊</td>
+            <td><span style="color:#E24B4A">厳しめ</span></td>
+            <td><span style="color:#BA7517">可能性あり</span></td>
+            <td>築25〜45年</td><td>55〜80㎡</td><td>2LDK〜3LDK</td>
+          </tr>
+          <tr>
+            <td class="area-name">三島・沼津</td>
+            <td><span style="color:#1D9E75">かなり余裕あり</span></td>
+            <td><span style="color:#1D9E75">かなり余裕あり</span></td>
+            <td>築10〜25年</td><td>70〜100㎡</td><td>3LDK〜4LDK</td>
+          </tr>
+          <tr>
+            <td class="area-name">熱海</td>
+            <td><span style="color:#BA7517">かなり特殊</span></td>
+            <td><span style="color:#BA7517">戸建も可能</span></td>
+            <td>築古リゾート多め</td><td>広め</td><td>管理費重め</td>
+          </tr>
         </tbody>
       </table>
     </div>
-
     <p class="section-label">補足</p>
-    <div class="card" style="margin-bottom:12px">
-  <div class="row">  <div class="dot dot-gray"></div><p class="row-text">23区の現実は、3,500万円で「価格だけ見れば買える」物件はあるが、<strong>築古・狭い・管理費高め・修繕積立不足リスク・再建築不可・エレベーターなし</strong>がセットになりやすい。「長く快適に住める」かどうかは別問題。</p></div>
-
-    <div class="row"><div class="dot dot-amber"></div><p class="row-text">鎌倉は雰囲気は最高だが価格がまだ強い。3,500万円だと駅遠・坂・築古・狭め、が増えやすい</p></div>
-    <div class="row"><div class="dot dot-gray"></div><p class="row-text">「3年待てば東京の物件が下がる」可能性は低い。建築費・人件費・円安・都心供給不足が続いており、<strong>急落は見えにくい</strong>状況</p></div>
+    <div class="card">
+      <div class="row"><div class="dot dot-gray"></div><p class="row-text">23区は3,500万円で「価格だけ見れば買える」物件はあるが、<strong>築古・狭い・管理費高め・修繕積立不足リスク・再建築不可・エレベーターなし</strong>がセットになりやすい。「長く快適に住める」かどうかは別問題</p></div>
+      <div class="row"><div class="dot dot-amber"></div><p class="row-text">鎌倉は雰囲気は最高だが価格がまだ強い。3,500万円だと<strong>駅遠・坂・築古・狭め</strong>が増えやすい</p></div>
+      <div class="row"><div class="dot dot-gray"></div><p class="row-text">「3年待てば東京の物件が下がる」可能性は低い。建築費・人件費・円安・都心供給不足が続いており、<strong>急落は見えにくい</strong>状況</p></div>
+    </div>
   </div>
 
+  <!-- SLIDE 3 -->
   <div class="slide" id="s2">
     <p class="slide-header">slide 3 of 5</p>
     <h1 class="slide-title">銀行がローン審査で見る観点</h1>
@@ -128,7 +160,7 @@
     <div class="card">
       <div class="loan-item"><p class="loan-item-title">年収・返済負担率</p><p class="loan-item-desc">年間返済額が年収の25〜35%以内かどうか。多くの銀行は30〜35%を上限の目安にしている</p></div>
       <div class="loan-item"><p class="loan-item-title">年齢・完済時年齢</p><p class="loan-item-desc">完済時が80歳以内であることが多い。夫47歳・35年ローンは完済82歳になり、審査で調整が入ることも</p></div>
-      <div class="loan-item"><p class="loan-item-title">雇用形態・勤続年数・勤務先の信用度</p><p class="loan-item-desc">正社員・勤続3年以上が有利。加えて勤務先の規模や安定性も評価に影響する。個人事業主は確定申告3期分の黒字実績が必要になるケースが多い</p></div>
+      <div class="loan-item"><p class="loan-item-title">雇用形態・勤続年数・勤務先の信用度</p><p class="loan-item-desc">正社員・勤続3年以上が有利。加えて勤務先の規模や安定性（上場企業か、公務員かなど）も評価に影響する。個人事業主は確定申告3期分の黒字実績が必要になるケースが多い</p></div>
       <div class="loan-item"><p class="loan-item-title">他の借入状況</p><p class="loan-item-desc">カーローン・カードローン・奨学金なども合算される。返済中の借入があると借入可能額が減る</p></div>
       <div class="loan-item"><p class="loan-item-title">頭金の割合</p><p class="loan-item-desc">頭金が多いほど審査は有利。物件価格の10〜20%が一般的な目安</p></div>
     </div>
@@ -140,6 +172,7 @@
     <div class="row"><div class="dot dot-gray"></div><p class="row-text">がん・全疾病など保障を厚くすると金利上乗せあり。手元資産・他の保険とのバランスで判断</p></div>
   </div>
 
+  <!-- SLIDE 4 -->
   <div class="slide" id="s3">
     <p class="slide-header">slide 4 of 5</p>
     <h1 class="slide-title">私たちの場合の試算イメージ</h1>
@@ -157,11 +190,11 @@
     <div class="row"><div class="dot dot-gray"></div><p class="row-text">世帯年収・月々の手取り・生活費によって変わる。次のスライドで一緒に確認したいことをまとめた</p></div>
   </div>
 
+  <!-- SLIDE 5 -->
   <div class="slide" id="s4">
     <p class="slide-header">slide 5 of 5</p>
     <h1 class="slide-title">これから二人で決めたいこと</h1>
     <p class="slide-subtitle">物件のエリア感・条件はある程度見えてきた。次は以下を一緒に詰めていきたい。</p>
-
     <div class="decide-card">
       <p class="decide-num">01</p>
       <p class="decide-title">月々いくらまで払うか</p>
@@ -175,14 +208,13 @@
     <div class="decide-card">
       <p class="decide-num">03</p>
       <p class="decide-title">住みたいエリア</p>
-      <p class="decide-desc">「絶対ここ」という縛りはないので、条件に合う物件が出てくるエリアを柔軟に探す。鎌倉〜小田原エリアを軸に、大磯・平塚方面も視野に入れる。</p>
+      <p class="decide-desc">「絶対ここ」という縛りはないので、条件に合う物件が出てくるエリアを柔軟に探す。鎌倉〜小田原エリアを軸に、大磯・平塚・三島方面も視野に入れる。</p>
     </div>
     <div class="decide-card">
       <p class="decide-num">04</p>
       <p class="decide-title">ペアローンを検討するか</p>
       <p class="decide-desc">夫婦それぞれがローンを組むと、両方に団信がつく。どちらかに万が一があった際のリスク分散ができる。</p>
     </div>
-
     <div class="buffer-note">
       <p>なお、万が一の際に備えて<strong>妻側にも一定の資産バッファーがある</strong>ため、どちらかの収入が止まった局面でも一定期間は対応できる見込み。</p>
     </div>
