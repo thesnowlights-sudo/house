@@ -15,9 +15,7 @@
     --text2: #6B6259;
     --text3: #9C9188;
     --accent: #C25E2A;
-    --accent2: #8B3A1A;
     --green: #4A7C59;
-    --step-bg: #FFF8F4;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -26,125 +24,129 @@
     font-family: 'Noto Sans JP', sans-serif;
     font-weight: 300;
     min-height: 100vh;
-    padding-bottom: 3rem;
   }
 
-  /* Header */
+  /* ===== HEADER ===== */
   .header {
     background: var(--text);
     color: var(--bg);
-    padding: 1.25rem 1.25rem 1rem;
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    padding: 1rem 1.25rem;
+    position: sticky; top: 0; z-index: 20;
+    display: flex; align-items: center; gap: 12px;
   }
-  .header-label { font-size: 10px; letter-spacing: .15em; color: var(--text3); margin-bottom: 4px; }
-  .header-title { font-family: 'Noto Serif JP', serif; font-size: 18px; font-weight: 500; color: #F7F4EF; }
-
-  /* Hero */
-  .hero {
-    background: var(--accent);
-    padding: 2rem 1.25rem 1.5rem;
-    position: relative;
-    overflow: hidden;
+  .header-back {
+    background: none; border: none; color: var(--bg);
+    font-size: 20px; cursor: pointer; padding: 0 4px;
+    display: none;
   }
-  .hero::before {
-    content: '';
-    position: absolute;
-    right: -20px; top: -20px;
-    width: 160px; height: 160px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.07);
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    right: 30px; bottom: -40px;
-    width: 100px; height: 100px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.05);
-  }
-  .hero-en { font-size: 11px; letter-spacing: .12em; color: rgba(255,255,255,.6); margin-bottom: 6px; }
-  .hero-name { font-family: 'Noto Serif JP', serif; font-size: 26px; font-weight: 600; color: #fff; line-height: 1.3; margin-bottom: 10px; }
-  .hero-source { font-size: 11px; color: rgba(255,255,255,.55); margin-bottom: 1rem; }
-  .hero-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-  .tag {
-    font-size: 11px; padding: 3px 10px;
-    border: 1px solid rgba(255,255,255,.3);
-    border-radius: 20px; color: rgba(255,255,255,.8);
+  .header-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 17px; font-weight: 500;
   }
 
-  /* Servings */
-  .servings-bar {
+  /* ===== SEARCH BAR ===== */
+  .search-wrap {
+    padding: 1rem 1.25rem;
     background: var(--card);
     border-bottom: 1px solid var(--border);
-    padding: 12px 1.25rem;
-    display: flex; align-items: center; gap: 12px;
-    position: sticky; top: 56px; z-index: 9;
+    position: sticky; top: 52px; z-index: 19;
+  }
+  .search-input {
+    width: 100%; padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    background: var(--bg);
+    font-size: 14px; font-family: 'Noto Sans JP', sans-serif;
+    color: var(--text); outline: none;
+  }
+  .search-input:focus { border-color: var(--accent); }
+
+  /* ===== LIST VIEW ===== */
+  #list-view { padding: 1rem 1.25rem; padding-bottom: 3rem; }
+  .list-count { font-size: 12px; color: var(--text3); margin-bottom: .75rem; }
+  .recipe-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: .6rem;
+    cursor: pointer;
+    transition: border-color .15s;
+  }
+  .recipe-card:active { border-color: var(--accent); background: var(--step-bg); }
+  .rc-name { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+  .rc-meta { font-size: 12px; color: var(--text3); display: flex; gap: 8px; flex-wrap: wrap; }
+  .rc-tag {
+    background: var(--bg2); padding: 2px 8px;
+    border-radius: 10px; font-size: 11px; color: var(--text2);
+  }
+  .no-data { text-align: center; color: var(--text3); font-size: 14px; padding: 3rem 0; }
+
+  /* ===== DETAIL VIEW ===== */
+  #detail-view { display: none; padding-bottom: 3rem; }
+  .hero {
+    background: var(--accent);
+    padding: 1.75rem 1.25rem 1.5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; right: -20px; top: -20px;
+    width: 140px; height: 140px; border-radius: 50%;
+    background: rgba(255,255,255,.07);
+  }
+  .hero-en { font-size: 11px; letter-spacing: .1em; color: rgba(255,255,255,.6); margin-bottom: 4px; }
+  .hero-name { font-family: 'Noto Serif JP', serif; font-size: 24px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+  .hero-source { font-size: 11px; color: rgba(255,255,255,.55); }
+
+  .servings-bar {
+    background: var(--card); border-bottom: 1px solid var(--border);
+    padding: 10px 1.25rem;
+    display: flex; align-items: center; gap: 10px;
+    position: sticky; top: 52px; z-index: 18;
   }
   .servings-label { font-size: 12px; color: var(--text2); flex: 1; }
   .s-btn {
     width: 30px; height: 30px; border-radius: 50%;
-    border: 1px solid var(--border);
-    background: var(--bg); color: var(--text);
-    font-size: 16px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--bg);
+    color: var(--text); font-size: 16px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
   }
-  .s-btn:active { background: var(--bg2); }
   .s-num { font-size: 16px; font-weight: 500; min-width: 20px; text-align: center; }
   .s-unit { font-size: 12px; color: var(--text2); }
 
-  /* Section */
-  .section { padding: 1.5rem 1.25rem 0; }
+  .section { padding: 1.25rem 1.25rem 0; }
   .section-title {
     font-size: 10px; letter-spacing: .14em; color: var(--text3);
-    text-transform: uppercase; margin-bottom: .75rem;
+    text-transform: uppercase; margin-bottom: .65rem;
     display: flex; align-items: center; gap: 8px;
   }
-  .section-title::after {
-    content: ''; flex: 1; height: 1px; background: var(--border);
-  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-  /* Ingredient groups */
   .ing-group { margin-bottom: .75rem; }
-  .ing-group-label {
-    font-size: 11px; font-weight: 500; color: var(--accent);
-    margin-bottom: 4px; padding-left: 2px;
-  }
-  .ing-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
+  .ing-group-label { font-size: 11px; font-weight: 500; color: var(--accent); margin-bottom: 4px; padding-left: 2px; }
+  .ing-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
   .ing-row {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 9px 14px;
-    border-bottom: 1px solid var(--bg2);
-    font-size: 13.5px; line-height: 1.4;
+    padding: 9px 14px; border-bottom: 1px solid var(--bg2);
+    font-size: 13.5px;
   }
   .ing-row:last-child { border-bottom: none; }
   .ing-name { color: var(--text2); flex: 1; padding-right: 8px; }
-  .ing-amt { font-weight: 500; color: var(--text); text-align: right; font-size: 13px; }
   .ing-note { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .ing-amt { font-weight: 500; color: var(--text); text-align: right; font-size: 13px; }
 
-  /* Steps */
-  .phase { margin-bottom: 1.25rem; }
+  .phase { margin-bottom: 1.1rem; }
   .phase-title {
     font-size: 12px; font-weight: 500; color: var(--green);
-    margin-bottom: .6rem;
-    padding: 4px 10px;
+    padding: 4px 10px; margin-bottom: .5rem;
     background: rgba(74,124,89,.08);
     border-left: 2px solid var(--green);
     border-radius: 0 4px 4px 0;
   }
   .step {
     display: flex; gap: 12px;
-    margin-bottom: .75rem;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 14px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 14px; margin-bottom: .5rem;
   }
   .step-num {
     width: 22px; height: 22px; border-radius: 50%;
@@ -154,172 +156,365 @@
     flex-shrink: 0; margin-top: 1px;
   }
   .step-text { font-size: 13.5px; line-height: 1.7; color: var(--text); flex: 1; }
-  .step-sub { font-size: 12px; color: var(--text3); margin-top: 4px; }
+  .step-sub { font-size: 12px; color: var(--text3); margin-top: 3px; }
 
-  /* Prep */
   .prep-item {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 14px;
-    margin-bottom: .5rem;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 14px; margin-bottom: .5rem;
     font-size: 13.5px; line-height: 1.6; color: var(--text2);
   }
+
+  /* loading */
+  .loading {
+    text-align: center; padding: 3rem 0;
+    color: var(--text3); font-size: 14px;
+  }
+  .spinner {
+    width: 28px; height: 28px; border: 2px solid var(--border);
+    border-top-color: var(--accent); border-radius: 50%;
+    animation: spin .8s linear infinite;
+    margin: 0 auto 12px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ===== PRINT ===== */
+  @media print {
+    .header, .search-wrap, .servings-bar, .print-btn { display: none !important; }
+    #list-view { display: none !important; }
+    #detail-view { display: block !important; }
+    body { background: white; }
+    .hero { background: #444 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .step, .ing-card, .prep-item { break-inside: avoid; }
+  }
+  .print-btn {
+    display: block; margin: 1.5rem 1.25rem 0;
+    padding: 10px; text-align: center;
+    border: 1px solid var(--border); border-radius: 10px;
+    background: var(--card); color: var(--text2);
+    font-size: 13px; cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+  }
+  .print-btn:active { background: var(--bg2); }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div class="header-label">RECIPE</div>
-  <div class="header-title">レシピビューワー</div>
+  <button class="header-back" id="back-btn" onclick="showList()">←</button>
+  <div class="header-title" id="header-title">レシピビューワー</div>
 </div>
 
-<div class="hero">
-  <div class="hero-en">Kheema Matar</div>
-  <div class="hero-name">キーママタル</div>
-  <div class="hero-source">南インド屋スパイスレッスン</div>
-  <div class="hero-tags">
-    <span class="tag">インド料理</span>
-    <span class="tag">スパイス</span>
-    <span class="tag">ひき肉</span>
+<!-- LIST VIEW -->
+<div id="list-view">
+  <div class="search-wrap">
+    <input class="search-input" id="search" type="search" placeholder="レシピ名・材料で検索…" oninput="filterRecipes()">
   </div>
-</div>
-
-<div class="servings-bar">
-  <span class="servings-label">人数で分量を変える</span>
-  <button class="s-btn" id="btn-m" aria-label="減らす">−</button>
-  <span class="s-num" id="s-disp">2</span>
-  <span class="s-unit">人分</span>
-  <button class="s-btn" id="btn-p" aria-label="増やす">+</button>
-</div>
-
-<div class="section">
-  <div class="section-title">材料</div>
-
-  <div class="ing-group">
-    <div class="ing-group-label">メイン</div>
-    <div class="ing-card">
-      <div class="ing-row"><span class="ing-name">サラダ油</span><span class="ing-amt" data-base="150" data-unit="ml">150ml</span></div>
-      <div class="ing-row">
-        <span class="ing-name">玉ねぎ<div class="ing-note">繊維を断つように薄切り</div></span>
-        <span class="ing-amt" data-base="180" data-unit="g" data-disp-base="0.75" data-disp-unit="個（" data-disp-sfx="g）">¾個（180g）</span>
-      </div>
-      <div class="ing-row">
-        <span class="ing-name">にんにく<div class="ing-note">すりおろし</div></span>
-        <span class="ing-amt" data-base="24" data-unit="g" data-disp-base="8" data-disp-unit="片（" data-disp-sfx="g）">8片（24g）</span>
-      </div>
-      <div class="ing-row">
-        <span class="ing-name">しょうが<div class="ing-note">すりおろし</div></span>
-        <span class="ing-amt" data-base="20" data-unit="g" data-disp-base="2" data-disp-unit="かけ（" data-disp-sfx="g）">2かけ（20g）</span>
-      </div>
-      <div class="ing-row"><span class="ing-name">塩</span><span class="ing-amt" data-base="1" data-unit="tsp強">1tsp強</span></div>
-      <div class="ing-row"><span class="ing-name">鶏むねひき肉</span><span class="ing-amt" data-base-min="600" data-base-max="700" data-unit="g">600〜700g</span></div>
-      <div class="ing-row"><span class="ing-name">水</span><span class="ing-amt" data-base="300" data-unit="ml">300ml</span></div>
-      <div class="ing-row">
-        <span class="ing-name">ドライグリーンピース<div class="ing-note">6時間以上浸水</div></span>
-        <span class="ing-amt" data-base="30" data-unit="g">30g</span>
-      </div>
-      <div class="ing-row"><span class="ing-name">パクチー（任意）</span><span class="ing-amt" data-fixed="ひとつかみ">ひとつかみ</span></div>
-      <div class="ing-row"><span class="ing-name">青唐辛子（任意）</span><span class="ing-amt" data-fixed="1本">1本</span></div>
-    </div>
-  </div>
-
-  <div class="ing-group">
-    <div class="ing-group-label">スパイス [A]</div>
-    <div class="ing-card">
-      <div class="ing-row"><span class="ing-name">チリパウダー</span><span class="ing-amt" data-base="1" data-unit="tbsp">1tbsp</span></div>
-      <div class="ing-row"><span class="ing-name">ターメリック</span><span class="ing-amt" data-base="0.5" data-unit="tsp">½tsp</span></div>
-      <div class="ing-row"><span class="ing-name">コリアンダーパウダー</span><span class="ing-amt" data-base="2" data-unit="tsp">2tsp</span></div>
-      <div class="ing-row"><span class="ing-name">クミンパウダー</span><span class="ing-amt" data-base="1" data-unit="tsp弱">1tsp弱</span></div>
-      <div class="ing-row"><span class="ing-name">キッチンキング</span><span class="ing-amt" data-base="0.5" data-unit="tsp弱">½tsp弱</span></div>
-    </div>
-  </div>
-
-  <div class="ing-group">
-    <div class="ing-group-label">仕上げ</div>
-    <div class="ing-card">
-      <div class="ing-row"><span class="ing-name">カスリメティ</span><span class="ing-amt" data-fixed="ひとつまみ">ひとつまみ</span></div>
-      <div class="ing-row"><span class="ing-name">ドライミント</span><span class="ing-amt" data-base="0.333" data-unit="tsp">⅓tsp</span></div>
-    </div>
+  <div style="padding: 1rem 1.25rem; padding-bottom: 3rem;">
+    <div class="loading"><div class="spinner"></div>データを読み込み中…</div>
   </div>
 </div>
 
-<div class="section">
-  <div class="section-title">下準備</div>
-  <div class="prep-item">🫛 ドライグリーンピースを軽く洗い、<strong style="font-weight:500">6時間以上</strong>浸水させる</div>
-  <div class="prep-item">🔪 玉ねぎは繊維を断つように薄切り。にんにく・しょうがはすりおろして水30mlでのばす。青唐辛子は小口切り、パクチーは1cm幅にカット</div>
-</div>
-
-<div class="section">
-  <div class="section-title">作り方</div>
-
-  <div class="phase">
-    <div class="phase-title">ベースを作る</div>
-    <div class="step"><div class="step-num">1</div><div class="step-text">フライパンに油を熱し、玉ねぎを強火できつね色になるまで炒める<div class="step-sub">焦茶色と白っぽい部分が混在する状態でOK</div></div></div>
-    <div class="step"><div class="step-num">2</div><div class="step-text">にんにく・しょうがを加え、弱火で約1分炒める（焦がさない）</div></div>
-    <div class="step"><div class="step-num">3</div><div class="step-text">スパイス[A]・カスリメティ・塩を加え、とろ火で約1分炒めてなじませる</div></div>
+<!-- DETAIL VIEW -->
+<div id="detail-view">
+  <div class="hero">
+    <div class="hero-en" id="d-en"></div>
+    <div class="hero-name" id="d-name"></div>
+    <div class="hero-source" id="d-source"></div>
   </div>
-
-  <div class="phase">
-    <div class="phase-title">煮込み</div>
-    <div class="step"><div class="step-num">4</div><div class="step-text">ひき肉を加え、ヘラで潰しながら混ぜる</div></div>
-    <div class="step"><div class="step-num">5</div><div class="step-text">水を加え、さらに肉をほぐしながら強火で煮立てる</div></div>
-    <div class="step"><div class="step-num">6</div><div class="step-text">軽く火が通ったら、グリンピース・ドライミント・パクチー・青唐辛子を加える</div></div>
-    <div class="step"><div class="step-num">7</div><div class="step-text">蓋をして中弱火で約20分煮る<div class="step-sub">途中で肉を崩す</div></div></div>
+  <div class="servings-bar">
+    <span class="servings-label">人数で分量を変える</span>
+    <button class="s-btn" onclick="changeServing(-1)">−</button>
+    <span class="s-num" id="s-num">2</span>
+    <span class="s-unit">人分</span>
+    <button class="s-btn" onclick="changeServing(1)">+</button>
   </div>
-
-  <div class="phase">
-    <div class="phase-title">仕上げ</div>
-    <div class="step"><div class="step-num">8</div><div class="step-text">肉を好みの細かさまで崩し、水分を調整して仕上げる</div></div>
-  </div>
+  <div id="d-ingredients"></div>
+  <div id="d-steps"></div>
+  <button class="print-btn" onclick="window.print()">🖨️ このレシピを印刷（A4）</button>
 </div>
 
 <script>
-const BASE = 2.5;
-let sv = 2;
+// ===== CSV URLS =====
+const URLS = {
+  list: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSpskv7v6DrQyDkLjufOo9yyH8wL1MNyuyJHe1pVW7PUph2MahRzH40bgfmQpnfoiPMY84d6LZ1LYXd/pub?gid=0&single=true&output=csv',
+  ingredients: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSpskv7v6DrQyDkLjufOo9yyH8wL1MNyuyJHe1pVW7PUph2MahRzH40bgfmQpnfoiPMY84d6LZ1LYXd/pub?gid=1853146255&single=true&output=csv',
+  recipeIngredients: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSpskv7v6DrQyDkLjufOo9yyH8wL1MNyuyJHe1pVW7PUph2MahRzH40bgfmQpnfoiPMY84d6LZ1LYXd/pub?gid=1744664315&single=true&output=csv',
+  steps: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSpskv7v6DrQyDkLjufOo9yyH8wL1MNyuyJHe1pVW7PUph2MahRzH40bgfmQpnfoiPMY84d6LZ1LYXd/pub?gid=1647512269&single=true&output=csv',
+};
 
-function frac(n) {
-  const map = [[0.25,'¼'],[0.33,'⅓'],[0.333,'⅓'],[0.5,'½'],[0.667,'⅔'],[0.75,'¾']];
-  for (const [v,s] of map) if (Math.abs(n-v)<0.02) return s;
-  return null;
-}
+// ===== STATE =====
+let DB = { list: [], ingredients: {}, recipeIngredients: {}, steps: {} };
+let currentRecipe = null;
+let servings = 2;
+const BASE_SERVINGS = 2.5;
 
-function fmt(n) {
-  if (n <= 0) return '少々';
-  const w = Math.floor(n), r = Math.round((n-w)*100)/100;
-  const rf = frac(r);
-  if (w === 0) return rf || n.toFixed(1).replace(/\.0$/,'');
-  if (r === 0) return String(w);
-  return w + (rf || r.toFixed(1));
-}
-
-function update() {
-  document.getElementById('s-disp').textContent = sv;
-  const ratio = sv / BASE;
-  document.querySelectorAll('[data-base],[data-base-min],[data-fixed]').forEach(el => {
-    if (el.dataset.fixed) return;
-    if (el.dataset.baseMin) {
-      const mn = Math.round(+el.dataset.baseMin * ratio);
-      const mx = Math.round(+el.dataset.baseMax * ratio);
-      el.textContent = mn + '〜' + mx + el.dataset.unit;
-      return;
+// ===== CSV PARSER =====
+function parseCSV(text) {
+  const lines = text.trim().split('\n');
+  const headers = lines[0].split(',').map(h => h.replace(/^"|"$/g,'').trim());
+  return lines.slice(1).map(line => {
+    const vals = [];
+    let cur = '', inQ = false;
+    for (const ch of line) {
+      if (ch === '"') { inQ = !inQ; }
+      else if (ch === ',' && !inQ) { vals.push(cur.trim()); cur = ''; }
+      else cur += ch;
     }
-    const base = +el.dataset.base, unit = el.dataset.unit || '';
-    const scaled = base * ratio;
-    if (el.dataset.dispBase) {
-      const ds = +el.dataset.dispBase * ratio;
-      const grams = Math.round(scaled);
-      el.textContent = fmt(ds) + el.dataset.dispUnit + grams + (el.dataset.dispSfx || '');
-    } else {
-      const suffix = unit.match(/[強弱]/)?.[0] || '';
-      const baseUnit = unit.replace(/[強弱]/g,'');
-      el.textContent = fmt(scaled) + baseUnit + suffix;
-    }
+    vals.push(cur.trim());
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = (vals[i] || '').replace(/^"|"$/g,''));
+    return obj;
   });
 }
 
-document.getElementById('btn-p').addEventListener('click', () => { if(sv<10){sv++;update();} });
-document.getElementById('btn-m').addEventListener('click', () => { if(sv>1){sv--;update();} });
+async function fetchCSV(url) {
+  const res = await fetch(url);
+  const text = await res.text();
+  return parseCSV(text);
+}
+
+// ===== LOAD ALL =====
+async function loadAll() {
+  try {
+    const [list, ings, ri, steps] = await Promise.all([
+      fetchCSV(URLS.list),
+      fetchCSV(URLS.ingredients),
+      fetchCSV(URLS.recipeIngredients),
+      fetchCSV(URLS.steps),
+    ]);
+
+    DB.list = list.filter(r => r.recipe_id || r.id || r['レシピID']);
+
+    // ingredient map: id -> name
+    ings.forEach(i => {
+      const id = i.ingredient_id || i.id;
+      DB.ingredients[id] = i.name || i['材料名'] || '';
+    });
+
+    // recipeIngredients: recipe_id -> [{...}]
+    ri.forEach(r => {
+      const rid = r.recipe_id;
+      if (!rid) return;
+      if (!DB.recipeIngredients[rid]) DB.recipeIngredients[rid] = [];
+      DB.recipeIngredients[rid].push(r);
+    });
+
+    // steps: recipe_id -> [{...}]
+    steps.forEach(s => {
+      const rid = s.recipe_id;
+      if (!rid) return;
+      if (!DB.steps[rid]) DB.steps[rid] = [];
+      DB.steps[rid].push(s);
+    });
+
+    renderList(DB.list);
+  } catch(e) {
+    document.querySelector('#list-view div').innerHTML = '<div class="no-data">データの読み込みに失敗しました。<br>再読み込みしてください。</div>';
+    console.error(e);
+  }
+}
+
+// ===== RENDER LIST =====
+function renderList(recipes) {
+  const container = document.querySelector('#list-view div');
+  if (!recipes.length) {
+    container.innerHTML = '<div class="no-data">該当するレシピがありません</div>';
+    return;
+  }
+  const idKey = recipes[0].recipe_id !== undefined ? 'recipe_id' : (recipes[0].id !== undefined ? 'id' : Object.keys(recipes[0])[0]);
+  const nameKey = recipes[0].name !== undefined ? 'name' : (recipes[0]['レシピ名'] !== undefined ? 'レシピ名' : Object.keys(recipes[0])[1]);
+
+  let html = `<div class="list-count">${recipes.length}件</div>`;
+  recipes.forEach(r => {
+    const id = r[idKey] || r.recipe_id;
+    const name = r[nameKey] || r.name || r['レシピ名（日本語）'] || '';
+    const en = r.name_en || r['レシピ名（英語）'] || '';
+    const src = r.source || r['レシピ元'] || '';
+    const cat = r.category || r['カテゴリ'] || '';
+    const hasDetail = !!DB.recipeIngredients[id];
+    html += `<div class="recipe-card" onclick="showDetail('${id}')">
+      <div class="rc-name">${name}${!hasDetail ? ' <span style="font-size:11px;color:var(--text3);">（準備中）</span>' : ''}</div>
+      <div class="rc-meta">
+        ${en ? `<span>${en}</span>` : ''}
+        ${cat ? `<span class="rc-tag">${cat}</span>` : ''}
+        ${src ? `<span style="color:var(--text3)">${src}</span>` : ''}
+      </div>
+    </div>`;
+  });
+  container.innerHTML = html;
+}
+
+// ===== SEARCH =====
+function filterRecipes() {
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  if (!q) { renderList(DB.list); return; }
+
+  // 材料名でマッチするrecipe_idを収集
+  const ingMatches = new Set();
+  Object.entries(DB.recipeIngredients).forEach(([rid, items]) => {
+    items.forEach(item => {
+      const ingName = DB.ingredients[item.ingredient_id] || '';
+      if (ingName.toLowerCase().includes(q)) ingMatches.add(rid);
+    });
+  });
+
+  const idKey = DB.list[0]?.recipe_id !== undefined ? 'recipe_id' : 'id';
+  const nameKey = DB.list[0]?.name !== undefined ? 'name' : 'レシピ名';
+
+  const filtered = DB.list.filter(r => {
+    const id = r[idKey] || r.recipe_id;
+    const name = (r[nameKey] || r['レシピ名（日本語）'] || '').toLowerCase();
+    const en = (r.name_en || r['レシピ名（英語）'] || '').toLowerCase();
+    return name.includes(q) || en.includes(q) || ingMatches.has(id);
+  });
+  renderList(filtered);
+}
+
+// ===== SHOW DETAIL =====
+function showDetail(recipeId) {
+  const idKey = DB.list[0]?.recipe_id !== undefined ? 'recipe_id' : 'id';
+  const recipe = DB.list.find(r => (r[idKey] || r.recipe_id) === recipeId);
+  if (!recipe) return;
+
+  currentRecipe = recipeId;
+  servings = Math.round(BASE_SERVINGS) || 2;
+
+  const nameKey = recipe.name !== undefined ? 'name' : 'レシピ名（日本語）';
+  document.getElementById('d-name').textContent = recipe[nameKey] || recipe['レシピ名（日本語）'] || '';
+  document.getElementById('d-en').textContent = recipe.name_en || recipe['レシピ名（英語）'] || '';
+  document.getElementById('d-source').textContent = recipe.source || recipe['レシピ元'] || '';
+  document.getElementById('header-title').textContent = recipe[nameKey] || recipe['レシピ名（日本語）'] || '';
+  document.getElementById('back-btn').style.display = 'block';
+
+  renderIngredients();
+  renderSteps();
+
+  document.getElementById('list-view').style.display = 'none';
+  document.getElementById('detail-view').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+// ===== SHOW LIST =====
+function showList() {
+  document.getElementById('detail-view').style.display = 'none';
+  document.getElementById('list-view').style.display = 'block';
+  document.getElementById('back-btn').style.display = 'none';
+  document.getElementById('header-title').textContent = 'レシピビューワー';
+  window.scrollTo(0, 0);
+}
+
+// ===== SERVINGS =====
+function changeServing(delta) {
+  servings = Math.max(1, Math.min(10, servings + delta));
+  document.getElementById('s-num').textContent = servings;
+  renderIngredients();
+}
+
+// ===== FORMAT AMOUNT =====
+const FRACS = [[0.25,'¼'],[0.333,'⅓'],[0.5,'½'],[0.667,'⅔'],[0.75,'¾']];
+function fmtFrac(n) {
+  for (const [v,s] of FRACS) if (Math.abs(n-v)<0.03) return s;
+  return null;
+}
+function fmtNum(n) {
+  if (n <= 0) return '少々';
+  const w = Math.floor(n), r = Math.round((n-w)*100)/100;
+  const rf = fmtFrac(r);
+  if (w===0) return rf || n.toFixed(1).replace(/\.0$/,'');
+  if (r===0) return String(w);
+  return w + (rf || r.toFixed(1));
+}
+function calcAmt(item) {
+  if (!item.amount) return item.note || '適量';
+  const base = parseFloat(item.amount);
+  if (isNaN(base)) return item.amount;
+  const ratio = servings / BASE_SERVINGS;
+  const scaled = base * ratio;
+  const unit = item.unit || '';
+  const suffix = unit.match(/[強弱]/)?.[0] || '';
+  const baseUnit = unit.replace(/[強弱]/g,'');
+  return fmtNum(scaled) + baseUnit + suffix;
+}
+
+// ===== RENDER INGREDIENTS =====
+function renderIngredients() {
+  const items = DB.recipeIngredients[currentRecipe];
+  const el = document.getElementById('d-ingredients');
+  if (!items || !items.length) {
+    el.innerHTML = `<div class="section"><div class="section-title">材料</div><div class="prep-item" style="color:var(--text3)">材料データは準備中です</div></div>`;
+    return;
+  }
+
+  // グループ分け
+  const groups = {};
+  items.forEach(item => {
+    const g = item.group || 'メイン';
+    if (!groups[g]) groups[g] = [];
+    groups[g].push(item);
+  });
+
+  let html = '<div class="section"><div class="section-title">材料</div>';
+  Object.entries(groups).forEach(([gname, gitems]) => {
+    html += `<div class="ing-group"><div class="ing-group-label">${gname}</div><div class="ing-card">`;
+    gitems.forEach(item => {
+      const ingName = DB.ingredients[item.ingredient_id] || item.ingredient_id || '';
+      const amt = calcAmt(item);
+      const note = item.note || '';
+      html += `<div class="ing-row">
+        <span class="ing-name">${ingName}${note ? `<div class="ing-note">${note}</div>` : ''}</span>
+        <span class="ing-amt">${amt}</span>
+      </div>`;
+    });
+    html += '</div></div>';
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+// ===== RENDER STEPS =====
+function renderSteps() {
+  const items = DB.steps[currentRecipe];
+  const el = document.getElementById('d-steps');
+  if (!items || !items.length) {
+    el.innerHTML = `<div class="section"><div class="section-title">作り方</div><div class="prep-item" style="color:var(--text3)">手順データは準備中です</div></div>`;
+    return;
+  }
+
+  // グループ分け
+  const groups = {};
+  const order = [];
+  items.forEach(item => {
+    const g = item.group || '作り方';
+    if (!groups[g]) { groups[g] = []; order.push(g); }
+    groups[g].push(item);
+  });
+
+  // 下準備を先頭に
+  const sortedOrder = [...new Set(['下準備', ...order])].filter(g => groups[g]);
+
+  let html = '<div class="section"><div class="section-title">作り方</div>';
+  sortedOrder.forEach(gname => {
+    const gitems = groups[gname];
+    if (!gitems) return;
+    if (gname === '下準備') {
+      html += `<div class="section-title" style="margin-bottom:.65rem">下準備</div>`;
+      gitems.sort((a,b)=>(+a.step_no)-(+b.step_no)).forEach(s => {
+        html += `<div class="prep-item">${s.content}</div>`;
+      });
+    } else {
+      html += `<div class="phase"><div class="phase-title">${gname}</div>`;
+      gitems.sort((a,b)=>(+a.step_no)-(+b.step_no)).forEach((s,i) => {
+        html += `<div class="step"><div class="step-num">${s.step_no||i+1}</div><div class="step-text">${s.content}</div></div>`;
+      });
+      html += '</div>';
+    }
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+// ===== INIT =====
+loadAll();
 </script>
 </body>
 </html>
