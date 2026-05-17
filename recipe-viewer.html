@@ -283,9 +283,9 @@ async function loadAll() {
       fetchCSV(URLS.steps),
     ]);
 
-    DB.list = list.filter(r => r.recipe_id || r.id || r['レシピID']);
+    DB.list = list.filter(r => r['ID'] && r['ID'].startsWith('R'));
 
-    // ingredient map: id -> name
+    // ingredient map: ingredient_id -> name
     ings.forEach(i => {
       const id = i.ingredient_id || i.id;
       DB.ingredients[id] = i.name || i['材料名'] || '';
@@ -321,16 +321,13 @@ function renderList(recipes) {
     container.innerHTML = '<div class="no-data">該当するレシピがありません</div>';
     return;
   }
-  const idKey = recipes[0].recipe_id !== undefined ? 'recipe_id' : (recipes[0].id !== undefined ? 'id' : Object.keys(recipes[0])[0]);
-  const nameKey = recipes[0].name !== undefined ? 'name' : (recipes[0]['レシピ名'] !== undefined ? 'レシピ名' : Object.keys(recipes[0])[1]);
-
   let html = `<div class="list-count">${recipes.length}件</div>`;
   recipes.forEach(r => {
-    const id = r[idKey] || r.recipe_id;
-    const name = r[nameKey] || r.name || r['レシピ名（日本語）'] || '';
-    const en = r.name_en || r['レシピ名（英語）'] || '';
-    const src = r.source || r['レシピ元'] || '';
-    const cat = r.category || r['カテゴリ'] || '';
+    const id = r['ID'] || '';
+    const name = r['レシピ名'] || '';
+    const en = r['現地表記'] || '';
+    const src = r['提供者'] || '';
+    const cat = r['カテゴリ'] || '';
     const hasDetail = !!DB.recipeIngredients[id];
     html += `<div class="recipe-card" onclick="showDetail('${id}')">
       <div class="rc-name">${name}${!hasDetail ? ' <span style="font-size:11px;color:var(--text3);">（準備中）</span>' : ''}</div>
@@ -349,7 +346,6 @@ function filterRecipes() {
   const q = document.getElementById('search').value.trim().toLowerCase();
   if (!q) { renderList(DB.list); return; }
 
-  // 材料名でマッチするrecipe_idを収集
   const ingMatches = new Set();
   Object.entries(DB.recipeIngredients).forEach(([rid, items]) => {
     items.forEach(item => {
@@ -358,13 +354,10 @@ function filterRecipes() {
     });
   });
 
-  const idKey = DB.list[0]?.recipe_id !== undefined ? 'recipe_id' : 'id';
-  const nameKey = DB.list[0]?.name !== undefined ? 'name' : 'レシピ名';
-
   const filtered = DB.list.filter(r => {
-    const id = r[idKey] || r.recipe_id;
-    const name = (r[nameKey] || r['レシピ名（日本語）'] || '').toLowerCase();
-    const en = (r.name_en || r['レシピ名（英語）'] || '').toLowerCase();
+    const id = r['ID'] || '';
+    const name = (r['レシピ名'] || '').toLowerCase();
+    const en = (r['現地表記'] || '').toLowerCase();
     return name.includes(q) || en.includes(q) || ingMatches.has(id);
   });
   renderList(filtered);
@@ -372,18 +365,16 @@ function filterRecipes() {
 
 // ===== SHOW DETAIL =====
 function showDetail(recipeId) {
-  const idKey = DB.list[0]?.recipe_id !== undefined ? 'recipe_id' : 'id';
-  const recipe = DB.list.find(r => (r[idKey] || r.recipe_id) === recipeId);
+  const recipe = DB.list.find(r => r['ID'] === recipeId);
   if (!recipe) return;
 
   currentRecipe = recipeId;
   servings = Math.round(BASE_SERVINGS) || 2;
 
-  const nameKey = recipe.name !== undefined ? 'name' : 'レシピ名（日本語）';
-  document.getElementById('d-name').textContent = recipe[nameKey] || recipe['レシピ名（日本語）'] || '';
-  document.getElementById('d-en').textContent = recipe.name_en || recipe['レシピ名（英語）'] || '';
-  document.getElementById('d-source').textContent = recipe.source || recipe['レシピ元'] || '';
-  document.getElementById('header-title').textContent = recipe[nameKey] || recipe['レシピ名（日本語）'] || '';
+  document.getElementById('d-name').textContent = recipe['レシピ名'] || '';
+  document.getElementById('d-en').textContent = recipe['現地表記'] || '';
+  document.getElementById('d-source').textContent = recipe['提供者'] || '';
+  document.getElementById('header-title').textContent = recipe['レシピ名'] || '';
   document.getElementById('back-btn').style.display = 'block';
 
   renderIngredients();
