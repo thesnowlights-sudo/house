@@ -7,199 +7,85 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #F7F4EF;
-    --bg2: #EEEAE2;
-    --card: #FFFDF9;
-    --border: #D9D3C7;
-    --text: #2A2520;
-    --text2: #6B6259;
-    --text3: #9C9188;
-    --accent: #C25E2A;
-    --green: #4A7C59;
+    --bg:#F7F4EF;--bg2:#EEEAE2;--card:#FFFDF9;--border:#D9D3C7;
+    --text:#2A2520;--text2:#6B6259;--text3:#9C9188;--accent:#C25E2A;--green:#4A7C59;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Noto Sans JP', sans-serif;
-    font-weight: 300;
-  }
-
-  /* HEADER */
-  #app-header {
-    background: var(--text);
-    color: #F7F4EF;
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  #back-btn {
-    background: none; border: none; color: #F7F4EF;
-    font-size: 20px; cursor: pointer; display: none;
-    padding: 0 4px; line-height: 1;
-  }
-  #header-title {
-    font-family: 'Noto Serif JP', serif;
-    font-size: 17px; font-weight: 500;
-  }
-
-  /* SEARCH */
-  #search-area {
-    padding: 12px 16px;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-  }
-  #search-input {
-    width: 100%;
-    padding: 10px 16px;
-    border: 1.5px solid var(--border);
-    border-radius: 24px;
-    background: var(--bg);
-    font-size: 15px;
-    font-family: 'Noto Sans JP', sans-serif;
-    color: var(--text);
-    outline: none;
-    -webkit-appearance: none;
-  }
-  #search-input:focus { border-color: var(--accent); }
-
-  /* LIST */
-  #list-view { padding: 12px 16px 80px; }
-  #list-status {
-    text-align: center;
-    padding: 40px 0;
-    color: var(--text3);
-    font-size: 14px;
-    line-height: 1.8;
-  }
-  .spinner {
-    width: 26px; height: 26px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin .7s linear infinite;
-    margin: 0 auto 10px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .recipe-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 13px 15px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .recipe-card:active { background: var(--bg2); }
-  .rc-name { font-size: 15px; font-weight: 500; margin-bottom: 5px; }
-  .rc-meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
-  .rc-cat {
-    font-size: 11px; padding: 2px 8px;
-    background: var(--bg2); border-radius: 10px;
-    color: var(--text2);
-  }
-  .rc-src { font-size: 12px; color: var(--text3); }
-  .rc-pending { font-size: 11px; color: var(--text3); }
-  .result-count { font-size: 12px; color: var(--text3); margin-bottom: 10px; }
-
-  /* DETAIL */
-  #detail-view { display: none; padding-bottom: 80px; }
-  .hero {
-    background: var(--accent);
-    padding: 24px 16px 20px;
-    overflow: hidden; position: relative;
-  }
-  .hero::after {
-    content: ''; position: absolute;
-    right: -20px; top: -20px;
-    width: 130px; height: 130px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.07);
-  }
-  .hero-en { font-size: 11px; letter-spacing: .1em; color: rgba(255,255,255,.6); margin-bottom: 4px; }
-  .hero-name { font-family: 'Noto Serif JP', serif; font-size: 24px; font-weight: 600; color: #fff; margin-bottom: 6px; line-height: 1.3; }
-  .hero-src { font-size: 12px; color: rgba(255,255,255,.55); }
-
-  .servings-bar {
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    padding: 10px 16px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .sv-label { font-size: 12px; color: var(--text2); flex: 1; }
-  .sv-btn {
-    width: 30px; height: 30px; border-radius: 50%;
-    border: 1px solid var(--border); background: var(--bg);
-    color: var(--text); font-size: 18px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    line-height: 1; -webkit-tap-highlight-color: transparent;
-  }
-  .sv-num { font-size: 16px; font-weight: 500; min-width: 22px; text-align: center; }
-  .sv-unit { font-size: 12px; color: var(--text2); }
-
-  .sec { padding: 16px 16px 0; }
-  .sec-title {
-    font-size: 10px; letter-spacing: .14em; color: var(--text3);
-    text-transform: uppercase; margin-bottom: 10px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .sec-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-  .ing-group { margin-bottom: 10px; }
-  .ing-group-label { font-size: 11px; font-weight: 500; color: var(--accent); margin-bottom: 4px; padding-left: 2px; }
-  .ing-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-  .ing-row {
-    display: flex; justify-content: space-between; align-items: flex-start;
-    padding: 9px 14px; border-bottom: 1px solid var(--bg2); font-size: 13.5px;
-  }
-  .ing-row:last-child { border-bottom: none; }
-  .ing-name { color: var(--text2); flex: 1; padding-right: 8px; line-height: 1.4; }
-  .ing-note-text { font-size: 11px; color: var(--text3); margin-top: 2px; }
-  .ing-amt { font-weight: 500; color: var(--text); text-align: right; font-size: 13px; white-space: nowrap; }
-
-  .phase { margin-bottom: 12px; }
-  .phase-title {
-    font-size: 12px; font-weight: 500; color: var(--green);
-    padding: 4px 10px; margin-bottom: 6px;
-    background: rgba(74,124,89,.08);
-    border-left: 2px solid var(--green);
-    border-radius: 0 4px 4px 0;
-  }
-  .step {
-    display: flex; gap: 12px;
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; padding: 12px 14px; margin-bottom: 6px;
-  }
-  .step-num {
-    width: 22px; height: 22px; border-radius: 50%;
-    background: var(--accent); color: #fff;
-    font-size: 11px; font-weight: 500;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; margin-top: 2px;
-  }
-  .step-text { font-size: 13.5px; line-height: 1.7; flex: 1; }
-  .prep-item {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; padding: 10px 14px; margin-bottom: 6px;
-    font-size: 13.5px; line-height: 1.6; color: var(--text2);
-  }
-  .print-btn {
-    display: block; margin: 16px 16px 0;
-    padding: 11px; text-align: center;
-    border: 1px solid var(--border); border-radius: 10px;
-    background: var(--card); color: var(--text2);
-    font-size: 13px; cursor: pointer;
-    font-family: 'Noto Sans JP', sans-serif;
-  }
-
-  @media print {
-    #app-header, #search-area, .servings-bar, .print-btn { display: none !important; }
-    #list-view { display: none !important; }
-    #detail-view { display: block !important; }
-    body { background: white; }
-    .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans JP',sans-serif;font-weight:300}
+  #app-header{background:var(--text);color:#F7F4EF;padding:14px 16px;display:flex;align-items:center;gap:10px}
+  #back-btn{background:none;border:none;color:#F7F4EF;font-size:20px;cursor:pointer;display:none;padding:0 4px}
+  #header-title{font-family:'Noto Serif JP',serif;font-size:17px;font-weight:500;flex:1}
+  #login-btn{font-size:12px;padding:5px 10px;border:1px solid rgba(255,255,255,.4);border-radius:14px;background:none;color:rgba(255,255,255,.85);cursor:pointer;font-family:'Noto Sans JP',sans-serif;white-space:nowrap}
+  #search-area{padding:12px 16px;background:var(--card);border-bottom:1px solid var(--border)}
+  #search-input{width:100%;padding:10px 16px;border:1.5px solid var(--border);border-radius:24px;background:var(--bg);font-size:15px;font-family:'Noto Sans JP',sans-serif;color:var(--text);outline:none;-webkit-appearance:none}
+  #search-input:focus{border-color:var(--accent)}
+  #list-view{padding:12px 16px 80px}
+  #list-status{text-align:center;padding:32px 0;color:var(--text3);font-size:14px;line-height:1.8}
+  .spinner{width:26px;height:26px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 10px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .recipe-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 15px;margin-bottom:8px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .recipe-card:active{background:var(--bg2)}
+  .rc-name{font-size:15px;font-weight:500;margin-bottom:5px}
+  .rc-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .rc-cat{font-size:11px;padding:2px 8px;background:var(--bg2);border-radius:10px;color:var(--text2)}
+  .rc-src{font-size:12px;color:var(--text3)}
+  .rc-pending{font-size:11px;color:var(--text3)}
+  .result-count{font-size:12px;color:var(--text3);margin-bottom:10px}
+  .recent-section{margin-bottom:16px}
+  .recent-label{font-size:11px;letter-spacing:.1em;color:var(--text3);margin-bottom:8px}
+  .recent-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .recent-chip{font-size:12px;padding:5px 12px;background:var(--card);border:1px solid var(--border);border-radius:16px;color:var(--text2);cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .recent-chip:active{background:var(--bg2)}
+  #detail-view{display:none;padding-bottom:80px}
+  .hero{background:var(--accent);padding:24px 16px 20px;overflow:hidden;position:relative}
+  .hero::after{content:'';position:absolute;right:-20px;top:-20px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.07)}
+  .hero-en{font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.6);margin-bottom:4px}
+  .hero-name{font-family:'Noto Serif JP',serif;font-size:24px;font-weight:600;color:#fff;margin-bottom:6px;line-height:1.3}
+  .hero-src{font-size:12px;color:rgba(255,255,255,.55)}
+  .servings-bar{background:var(--card);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;gap:10px}
+  .sv-label{font-size:12px;color:var(--text2);flex:1}
+  .sv-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+  .sv-num{font-size:16px;font-weight:500;min-width:22px;text-align:center}
+  .sv-unit{font-size:12px;color:var(--text2)}
+  .sec{padding:16px 16px 0}
+  .sec-title{font-size:10px;letter-spacing:.14em;color:var(--text3);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+  .sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+  .ing-group{margin-bottom:10px}
+  .ing-group-label{font-size:11px;font-weight:500;color:var(--accent);margin-bottom:4px;padding-left:2px}
+  .ing-card{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+  .ing-row{display:flex;justify-content:space-between;align-items:flex-start;padding:9px 14px;border-bottom:1px solid var(--bg2);font-size:13.5px}
+  .ing-row:last-child{border-bottom:none}
+  .ing-name{color:var(--text2);flex:1;padding-right:8px;line-height:1.4}
+  .ing-note-text{font-size:11px;color:var(--text3);margin-top:2px}
+  .ing-amt{font-weight:500;color:var(--text);text-align:right;font-size:13px;white-space:nowrap}
+  .phase{margin-bottom:12px}
+  .phase-title{font-size:12px;font-weight:500;color:var(--green);padding:4px 10px;margin-bottom:6px;background:rgba(74,124,89,.08);border-left:2px solid var(--green);border-radius:0 4px 4px 0}
+  .step{display:flex;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:6px}
+  .step-num{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+  .step-text{font-size:13.5px;line-height:1.7;flex:1}
+  .prep-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:6px;font-size:13.5px;line-height:1.6;color:var(--text2)}
+  .pair-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 15px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:10px;-webkit-tap-highlight-color:transparent}
+  .pair-card:active{background:var(--bg2)}
+  .pair-info{flex:1}
+  .pair-name{font-size:14px;font-weight:500;margin-bottom:3px}
+  .pair-meta{font-size:12px;color:var(--text3)}
+  .pair-arrow{color:var(--text3);font-size:18px}
+  .memo-wrap{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+  .memo-login-prompt{padding:16px;text-align:center}
+  .memo-login-prompt p{font-size:13px;color:var(--text2);margin-bottom:10px}
+  .memo-login-btn{font-size:13px;padding:8px 20px;border:1px solid var(--border);border-radius:20px;background:var(--bg);color:var(--text);cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+  .memo-area{width:100%;padding:12px 14px;border:none;resize:none;font-size:13.5px;line-height:1.7;font-family:'Noto Sans JP',sans-serif;color:var(--text);background:var(--card);outline:none;min-height:100px}
+  .memo-footer{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-top:1px solid var(--bg2)}
+  .memo-save-btn{font-size:12px;padding:5px 14px;border:1px solid var(--accent);border-radius:14px;background:none;color:var(--accent);cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+  .memo-save-btn:active{background:var(--accent);color:#fff}
+  .memo-saved{font-size:12px;color:var(--green)}
+  .print-btn{display:block;margin:16px 16px 0;padding:11px;text-align:center;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text2);font-size:13px;cursor:pointer;font-family:'Noto Sans JP',sans-serif}
+  @media print{
+    #app-header,#search-area,.servings-bar,.print-btn,#d-pairs,#d-memo{display:none!important}
+    #list-view{display:none!important}
+    #detail-view{display:block!important}
+    body{background:white}
+    .hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   }
 </style>
 </head>
@@ -208,6 +94,7 @@
 <div id="app-header">
   <button id="back-btn" onclick="showList()">←</button>
   <div id="header-title">レシピビューワー</div>
+  <button id="login-btn" onclick="handleLogin()">Googleでログイン</button>
 </div>
 
 <div id="search-area">
@@ -236,272 +123,302 @@
   </div>
   <div id="d-ings"></div>
   <div id="d-steps"></div>
+  <div id="d-pairs"></div>
+  <div id="d-memo"></div>
   <button class="print-btn" onclick="window.print()">🖨️ このレシピを印刷（A4）</button>
 </div>
 
+<script src="https://accounts.google.com/gsi/client" async></script>
 <script>
-const SHEET_ID = '2PACX-1vSpskv7v6DrQyDkLjufOo9yyH8wL1MNyuyJHe1pVW7PUph2MahRzH40bgfmQpnfoiPMY84d6LZ1LYXd';
-const BASE = `https://docs.google.com/spreadsheets/d/e/${SHEET_ID}/pub?single=true&output=csv`;
-const URLS = {
-  list: BASE + '&gid=0',
-  ings: BASE + '&gid=1853146255',
-  ri:   BASE + '&gid=1744664315',
-  steps:BASE + '&gid=1647512269',
-};
+const CLIENT_ID='25592553973-g8rjs9t9ke1bqs9measq6d59ibqdieqj.apps.googleusercontent.com';
+const SHEET_ID='1VuRBOKYV-fvpobttxzgJX3aPIw1uZ0pg6-dOoDfQ6Xs';
+const PUB='https://docs.google.com/spreadsheets/d/e/2PACX-1vSpskv7v6DrQyDkLjufOo9yyH8wL1MNyuyJHe1pVW7PUph2MahRzH40bgfmQpnfoiPMY84d6LZ1LYXd/pub?single=true&output=csv';
+const URLS={list:PUB+'&gid=0',ings:PUB+'&gid=1853146255',ri:PUB+'&gid=1744664315',steps:PUB+'&gid=1647512269'};
+let DB={list:[],ings:{},ri:{},steps:{}};
+let currentId=null,sv=2,accessToken=null;
+const BASE_SV=2.5;
 
-let DB = { list:[], ings:{}, ri:{}, steps:{} };
-let currentId = null;
-let sv = 2;
-const BASE_SV = 2.5;
+// Recent
+const RKEY='recipe_recent';
+function getRecent(){try{return JSON.parse(localStorage.getItem(RKEY)||'[]')}catch{return[]}}
+function addRecent(id,name){
+  let list=getRecent().filter(r=>r.id!==id);
+  list.unshift({id,name});
+  if(list.length>5)list=list.slice(0,5);
+  localStorage.setItem(RKEY,JSON.stringify(list));
+}
 
-// ---- CSV parser ----
-function parseCSV(text) {
-  const rows = [];
-  const lines = text.replace(/\r/g,'').split('\n');
-  const headers = splitLine(lines[0]);
-  for (let i = 1; i < lines.length; i++) {
-    if (!lines[i].trim()) continue;
-    const vals = splitLine(lines[i]);
-    const obj = {};
-    headers.forEach((h,j) => obj[h] = (vals[j]||'').trim());
-    rows.push(obj);
+// CSV
+function splitLine(line){
+  const res=[];let cur='',inQ=false;
+  for(const ch of line){
+    if(ch==='"')inQ=!inQ;
+    else if(ch===','&&!inQ){res.push(cur);cur='';}
+    else cur+=ch;
   }
-  return rows;
+  res.push(cur);
+  return res.map(s=>s.replace(/^"|"$/g,'').trim());
 }
-function splitLine(line) {
-  const result = [];
-  let cur = '', inQ = false;
-  for (const ch of line) {
-    if (ch === '"') { inQ = !inQ; }
-    else if (ch === ',' && !inQ) { result.push(cur); cur = ''; }
-    else cur += ch;
-  }
-  result.push(cur);
-  return result.map(s => s.replace(/^"|"$/g,'').trim());
+function parseCSV(text){
+  const lines=text.replace(/\r/g,'').split('\n');
+  const headers=splitLine(lines[0]);
+  return lines.slice(1).filter(l=>l.trim()).map(l=>{
+    const vals=splitLine(l),obj={};
+    headers.forEach((h,j)=>obj[h]=(vals[j]||'').trim());
+    return obj;
+  });
 }
+async function fetchCSV(url){const r=await fetch(url);return parseCSV(await r.text())}
 
-// ---- Fetch ----
-async function fetchCSV(url) {
-  const r = await fetch(url);
-  return parseCSV(await r.text());
-}
-
-// ---- Load all ----
-async function loadAll() {
-  try {
-    const [list, ings, ri, steps] = await Promise.all([
-      fetchCSV(URLS.list),
-      fetchCSV(URLS.ings),
-      fetchCSV(URLS.ri),
-      fetchCSV(URLS.steps),
-    ]);
-
-    DB.list = list.filter(r => r['ID'] && r['ID'].match(/^R\d+/));
-
-    ings.forEach(r => {
-      if (r.ingredient_id) DB.ings[r.ingredient_id] = r.name || '';
-    });
-    ri.forEach(r => {
-      if (!r.recipe_id) return;
-      if (!DB.ri[r.recipe_id]) DB.ri[r.recipe_id] = [];
-      DB.ri[r.recipe_id].push(r);
-    });
-    steps.forEach(r => {
-      if (!r.recipe_id) return;
-      if (!DB.steps[r.recipe_id]) DB.steps[r.recipe_id] = [];
-      DB.steps[r.recipe_id].push(r);
-    });
-
+// Load
+async function loadAll(){
+  try{
+    const[list,ings,ri,steps]=await Promise.all([fetchCSV(URLS.list),fetchCSV(URLS.ings),fetchCSV(URLS.ri),fetchCSV(URLS.steps)]);
+    DB.list=list.filter(r=>r['ID']?.match(/^R\d+/));
+    ings.forEach(r=>{if(r.ingredient_id)DB.ings[r.ingredient_id]=r.name||''});
+    ri.forEach(r=>{if(!r.recipe_id)return;if(!DB.ri[r.recipe_id])DB.ri[r.recipe_id]=[];DB.ri[r.recipe_id].push(r)});
+    steps.forEach(r=>{if(!r.recipe_id)return;if(!DB.steps[r.recipe_id])DB.steps[r.recipe_id]=[];DB.steps[r.recipe_id].push(r)});
     showPrompt();
-  } catch(e) {
-    document.getElementById('list-status').innerHTML = '⚠️ 読み込みに失敗しました<br>再読み込みしてください';
+  }catch(e){
+    document.getElementById('list-status').innerHTML='⚠️ 読み込みに失敗しました<br>再読み込みしてください';
     console.error(e);
   }
 }
 
-function showPrompt() {
-  document.getElementById('list-status').innerHTML = '🔍 レシピ名や材料名を入力して検索';
-}
-
-// ---- Search ----
-function onSearch() {
-  const q = document.getElementById('search-input').value.trim().toLowerCase();
-  if (!q) { showPrompt(); return; }
-
-  const ingHits = new Set();
-  Object.entries(DB.ri).forEach(([rid, items]) => {
-    items.forEach(item => {
-      const n = (DB.ings[item.ingredient_id] || '').toLowerCase();
-      if (n.includes(q)) ingHits.add(rid);
-    });
-  });
-
-  const results = DB.list.filter(r => {
-    const id = r['ID'] || '';
-    const name = (r['レシピ名'] || '').toLowerCase();
-    const en = (r['現地表記'] || '').toLowerCase();
-    return name.includes(q) || en.includes(q) || ingHits.has(id);
-  });
-
-  renderList(results);
-}
-
-function renderList(recipes) {
-  const status = document.getElementById('list-status');
-  if (!recipes.length) {
-    status.innerHTML = '該当するレシピがありません';
-    return;
+// Prompt
+function showPrompt(){
+  const recent=getRecent();
+  let html='';
+  if(recent.length){
+    html+=`<div class="recent-section">
+      <div class="recent-label">最近見たレシピ</div>
+      <div class="recent-chips">${recent.map(r=>`<div class="recent-chip" onclick="showDetail('${r.id}')">${r.name}</div>`).join('')}</div>
+    </div>`;
   }
-  let html = `<div class="result-count">${recipes.length}件</div>`;
-  recipes.forEach(r => {
-    const id = r['ID'] || '';
-    const name = r['レシピ名'] || '';
-    const en = r['現地表記'] || '';
-    const cat = r['カテゴリ'] || '';
-    const src = r['提供者'] || '';
-    const hasData = !!DB.ri[id];
-    html += `<div class="recipe-card" onclick="showDetail('${id}')">
-      <div class="rc-name">${name}${!hasData ? ' <span class="rc-pending">（準備中）</span>' : ''}</div>
-      <div class="rc-meta">
-        ${cat ? `<span class="rc-cat">${cat}</span>` : ''}
-        ${src ? `<span class="rc-src">${src}</span>` : ''}
-        ${en ? `<span class="rc-src">／ ${en}</span>` : ''}
-      </div>
+  html+=`<div style="text-align:center;padding:${recent.length?'8px':'32px'} 0 32px;color:var(--text3);font-size:14px">🔍 レシピ名や材料名を入力して検索</div>`;
+  document.getElementById('list-status').innerHTML=html;
+}
+
+// Search
+function onSearch(){
+  const q=document.getElementById('search-input').value.trim().toLowerCase();
+  if(!q){showPrompt();return}
+  const hits=new Set();
+  Object.entries(DB.ri).forEach(([rid,items])=>items.forEach(item=>{
+    if((DB.ings[item.ingredient_id]||'').toLowerCase().includes(q))hits.add(rid);
+  }));
+  const results=DB.list.filter(r=>{
+    const id=r['ID']||'';
+    return(r['レシピ名']||'').toLowerCase().includes(q)||(r['現地表記']||'').toLowerCase().includes(q)||hits.has(id);
+  });
+  if(!results.length){document.getElementById('list-status').innerHTML='<div style="text-align:center;padding:32px 0;color:var(--text3);font-size:14px">該当するレシピがありません</div>';return}
+  let html=`<div class="result-count">${results.length}件</div>`;
+  results.forEach(r=>{
+    const id=r['ID']||'',name=r['レシピ名']||'',cat=r['カテゴリ']||'',src=r['提供者']||'',en=r['現地表記']||'';
+    html+=`<div class="recipe-card" onclick="showDetail('${id}')">
+      <div class="rc-name">${name}${!DB.ri[id]?'<span class="rc-pending"> （準備中）</span>':''}</div>
+      <div class="rc-meta">${cat?`<span class="rc-cat">${cat}</span>`:''}${src?`<span class="rc-src">${src}</span>`:''}${en?`<span class="rc-src">／ ${en}</span>`:''}</div>
     </div>`;
   });
-  status.outerHTML = `<div id="list-status">${html}</div>`;
+  document.getElementById('list-status').outerHTML=`<div id="list-status">${html}</div>`;
 }
 
-// ---- Detail ----
-function showDetail(id) {
-  const r = DB.list.find(r => r['ID'] === id);
-  if (!r) return;
-  currentId = id;
-  sv = Math.round(BASE_SV);
-
-  document.getElementById('d-name').textContent = r['レシピ名'] || '';
-  document.getElementById('d-en').textContent = r['現地表記'] || '';
-  document.getElementById('d-src').textContent = r['提供者'] || '';
-  document.getElementById('header-title').textContent = r['レシピ名'] || '';
-  document.getElementById('back-btn').style.display = 'block';
-  document.getElementById('sv-num').textContent = sv;
-
-  buildIngs();
-  buildSteps();
-
-  document.getElementById('search-area').style.display = 'none';
-  document.getElementById('list-view').style.display = 'none';
-  document.getElementById('detail-view').style.display = 'block';
-  window.scrollTo(0, 0);
+// Detail
+function showDetail(id){
+  const r=DB.list.find(r=>r['ID']===id);if(!r)return;
+  currentId=id;sv=Math.round(BASE_SV);
+  addRecent(id,r['レシピ名']||'');
+  document.getElementById('d-name').textContent=r['レシピ名']||'';
+  document.getElementById('d-en').textContent=r['現地表記']||'';
+  document.getElementById('d-src').textContent=r['提供者']||'';
+  document.getElementById('header-title').textContent=r['レシピ名']||'';
+  document.getElementById('back-btn').style.display='block';
+  document.getElementById('sv-num').textContent=sv;
+  buildIngs();buildSteps();buildPairs(r);buildMemo();
+  document.getElementById('search-area').style.display='none';
+  document.getElementById('list-view').style.display='none';
+  document.getElementById('detail-view').style.display='block';
+  window.scrollTo(0,0);
 }
 
-function showList() {
-  document.getElementById('detail-view').style.display = 'none';
-  document.getElementById('search-area').style.display = 'block';
-  document.getElementById('list-view').style.display = 'block';
-  document.getElementById('back-btn').style.display = 'none';
-  document.getElementById('header-title').textContent = 'レシピビューワー';
-  window.scrollTo(0, 0);
+function showList(){
+  document.getElementById('detail-view').style.display='none';
+  document.getElementById('search-area').style.display='block';
+  document.getElementById('list-view').style.display='block';
+  document.getElementById('back-btn').style.display='none';
+  document.getElementById('header-title').textContent='レシピビューワー';
+  showPrompt();window.scrollTo(0,0);
 }
 
-// ---- Servings ----
-function changeSv(d) {
-  sv = Math.max(1, Math.min(10, sv + d));
-  document.getElementById('sv-num').textContent = sv;
-  buildIngs();
+// Servings
+function changeSv(d){sv=Math.max(1,Math.min(10,sv+d));document.getElementById('sv-num').textContent=sv;buildIngs()}
+
+// Format
+const FRACS=[[0.25,'¼'],[0.333,'⅓'],[0.5,'½'],[0.667,'⅔'],[0.75,'¾']];
+function fmtN(n){
+  if(n<=0)return'少々';
+  const w=Math.floor(n),rem=Math.round((n-w)*1000)/1000;
+  const f=FRACS.find(([v])=>Math.abs(rem-v)<0.03);
+  const rs=f?f[1]:(rem>0?rem.toFixed(1):'');
+  return(w>0?w:'')+rs||n.toFixed(1);
+}
+function calcAmt(item){
+  if(!item.amount)return item.note||'適量';
+  const base=parseFloat(item.amount);if(isNaN(base))return item.amount;
+  const scaled=base*sv/BASE_SV,unit=item.unit||'';
+  const suf=unit.match(/[強弱]/)?.[0]||'';
+  return fmtN(scaled)+unit.replace(/[強弱]/g,'')+suf;
 }
 
-// ---- Format ----
-const FRACS = [[0.25,'¼'],[0.333,'⅓'],[0.5,'½'],[0.667,'⅔'],[0.75,'¾']];
-function fmtN(n) {
-  if (n <= 0) return '少々';
-  const w = Math.floor(n), rem = Math.round((n-w)*1000)/1000;
-  const frac = FRACS.find(([v]) => Math.abs(rem-v) < 0.03);
-  const remStr = frac ? frac[1] : (rem > 0 ? rem.toFixed(1) : '');
-  return (w > 0 ? w : '') + remStr || n.toFixed(1);
-}
-function calcAmt(item) {
-  if (!item.amount) return item.note || '適量';
-  const base = parseFloat(item.amount);
-  if (isNaN(base)) return item.amount;
-  const scaled = base * sv / BASE_SV;
-  const unit = item.unit || '';
-  const suffix = unit.match(/[強弱]/)?.[0] || '';
-  return fmtN(scaled) + unit.replace(/[強弱]/g,'') + suffix;
-}
-
-// ---- Build ingredients ----
-function buildIngs() {
-  const items = DB.ri[currentId];
-  const el = document.getElementById('d-ings');
-  if (!items?.length) {
-    el.innerHTML = '<div class="sec"><div class="sec-title">材料</div><div class="prep-item" style="color:var(--text3)">材料データは準備中です</div></div>';
-    return;
-  }
-  const groups = {};
-  const order = [];
-  items.forEach(item => {
-    const g = item.group || 'メイン';
-    if (!groups[g]) { groups[g] = []; order.push(g); }
-    groups[g].push(item);
-  });
-
-  let html = '<div class="sec"><div class="sec-title">材料</div>';
-  order.forEach(g => {
-    html += `<div class="ing-group"><div class="ing-group-label">${g}</div><div class="ing-card">`;
-    groups[g].forEach(item => {
-      const name = DB.ings[item.ingredient_id] || item.ingredient_id || '';
-      const amt = calcAmt(item);
-      const note = item.note || '';
-      html += `<div class="ing-row">
-        <span class="ing-name">${name}${note ? `<div class="ing-note-text">${note}</div>` : ''}</span>
-        <span class="ing-amt">${amt}</span>
-      </div>`;
+// Ingredients
+function buildIngs(){
+  const items=DB.ri[currentId],el=document.getElementById('d-ings');
+  if(!items?.length){el.innerHTML='<div class="sec"><div class="sec-title">材料</div><div class="prep-item" style="color:var(--text3)">材料データは準備中です</div></div>';return}
+  const groups={},order=[];
+  items.forEach(item=>{const g=item.group||'メイン';if(!groups[g]){groups[g]=[];order.push(g)}groups[g].push(item)});
+  let html='<div class="sec"><div class="sec-title">材料</div>';
+  order.forEach(g=>{
+    html+=`<div class="ing-group"><div class="ing-group-label">${g}</div><div class="ing-card">`;
+    groups[g].forEach(item=>{
+      const name=DB.ings[item.ingredient_id]||item.ingredient_id||'',amt=calcAmt(item),note=item.note||'';
+      html+=`<div class="ing-row"><span class="ing-name">${name}${note?`<div class="ing-note-text">${note}</div>`:''}</span><span class="ing-amt">${amt}</span></div>`;
     });
-    html += '</div></div>';
+    html+='</div></div>';
   });
-  html += '</div>';
-  el.innerHTML = html;
+  el.innerHTML=html+'</div>';
 }
 
-// ---- Build steps ----
-function buildSteps() {
-  const items = DB.steps[currentId];
-  const el = document.getElementById('d-steps');
-  if (!items?.length) {
-    el.innerHTML = '<div class="sec"><div class="sec-title">作り方</div><div class="prep-item" style="color:var(--text3)">手順データは準備中です</div></div>';
-    return;
-  }
-  const groups = {};
-  const order = [];
-  items.forEach(s => {
-    const g = s.group || '作り方';
-    if (!groups[g]) { groups[g] = []; order.push(g); }
-    groups[g].push(s);
-  });
-
-  const sortedOrder = ['下準備', ...order.filter(g => g !== '下準備')].filter(g => groups[g]);
-
-  let html = '<div class="sec"><div class="sec-title">作り方</div>';
-  sortedOrder.forEach(g => {
-    const gitems = groups[g].sort((a,b) => (+a.step_no) - (+b.step_no));
-    if (g === '下準備') {
-      html += `<div class="phase"><div class="phase-title">下準備</div>`;
-      gitems.forEach(s => { html += `<div class="prep-item">${s.content.replace(/\n/g,'<br>')}</div>`; });
-      html += '</div>';
-    } else {
-      html += `<div class="phase"><div class="phase-title">${g}</div>`;
-      gitems.forEach((s,i) => {
-        html += `<div class="step"><div class="step-num">${s.step_no||i+1}</div><div class="step-text">${s.content.replace(/\n/g,'<br>')}</div></div>`;
-      });
-      html += '</div>';
+// Steps
+function buildSteps(){
+  const items=DB.steps[currentId],el=document.getElementById('d-steps');
+  if(!items?.length){el.innerHTML='<div class="sec"><div class="sec-title">作り方</div><div class="prep-item" style="color:var(--text3)">手順データは準備中です</div></div>';return}
+  const groups={},order=[];
+  items.forEach(s=>{const g=s.group||'作り方';if(!groups[g]){groups[g]=[];order.push(g)}groups[g].push(s)});
+  const sorted=['下準備',...order.filter(g=>g!=='下準備')].filter(g=>groups[g]);
+  let html='<div class="sec"><div class="sec-title">作り方</div>';
+  sorted.forEach(g=>{
+    const gi=groups[g].sort((a,b)=>(+a.step_no)-(+b.step_no));
+    if(g==='下準備'){
+      html+=`<div class="phase"><div class="phase-title">下準備</div>`;
+      gi.forEach(s=>{html+=`<div class="prep-item">${s.content.replace(/\n/g,'<br>')}</div>`});
+      html+='</div>';
+    }else{
+      html+=`<div class="phase"><div class="phase-title">${g}</div>`;
+      gi.forEach((s,i)=>{html+=`<div class="step"><div class="step-num">${s.step_no||i+1}</div><div class="step-text">${s.content.replace(/\n/g,'<br>')}</div></div>`});
+      html+='</div>';
     }
   });
-  html += '</div>';
-  el.innerHTML = html;
+  el.innerHTML=html+'</div>';
 }
 
-// ---- Start ----
+// Pairs
+function buildPairs(recipe){
+  const el=document.getElementById('d-pairs');
+  const pairStr=recipe['pair_ids']||'';
+  if(!pairStr.trim()){el.innerHTML='';return}
+  const pairs=pairStr.split(',').map(s=>s.trim()).filter(Boolean).map(id=>DB.list.find(r=>r['ID']===id)).filter(Boolean);
+  if(!pairs.length){el.innerHTML='';return}
+  let html='<div class="sec"><div class="sec-title">一緒に食べたいレシピ</div>';
+  pairs.forEach(r=>{
+    const id=r['ID']||'',name=r['レシピ名']||'',cat=r['カテゴリ']||'',src=r['提供者']||'';
+    html+=`<div class="pair-card" onclick="showDetail('${id}')">
+      <div class="pair-info"><div class="pair-name">${name}</div><div class="pair-meta">${[cat,src].filter(Boolean).join(' ／ ')}</div></div>
+      <div class="pair-arrow">›</div>
+    </div>`;
+  });
+  el.innerHTML=html+'</div>';
+}
+
+// Memo
+function getMemoLocal(id){try{return JSON.parse(localStorage.getItem('memo_'+id)||'""')}catch{return''}}
+function setMemoLocal(id,text){localStorage.setItem('memo_'+id,JSON.stringify(text))}
+
+function buildMemo(){
+  const el=document.getElementById('d-memo');
+  const saved=getMemoLocal(currentId);
+  if(!accessToken){
+    el.innerHTML=`<div class="sec"><div class="sec-title">調理メモ</div>
+      <div class="memo-wrap">
+        <div class="memo-login-prompt">
+          <p>メモをスプレッドシートに保存するにはGoogleログインが必要です</p>
+          <button class="memo-login-btn" onclick="handleLogin()">Googleでログイン</button>
+          ${saved?`<div style="margin-top:12px;text-align:left"><textarea class="memo-area" id="memo-text" placeholder="例：チリを半分にしたら美味しかった…">${saved}</textarea><div class="memo-footer"><span class="memo-saved" id="memo-status"></span><button class="memo-save-btn" onclick="saveMemo()">ローカルに保存</button></div></div>`:''}
+        </div>
+      </div>
+    </div>`;
+    return;
+  }
+  el.innerHTML=`<div class="sec"><div class="sec-title">調理メモ</div>
+    <div class="memo-wrap">
+      <textarea class="memo-area" id="memo-text" placeholder="例：チリを半分にしたら美味しかった…">${saved}</textarea>
+      <div class="memo-footer">
+        <span class="memo-saved" id="memo-status"></span>
+        <button class="memo-save-btn" onclick="saveMemo()">保存</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+async function saveMemo(){
+  const text=document.getElementById('memo-text')?.value||'';
+  const st=document.getElementById('memo-status');
+  setMemoLocal(currentId,text);
+  if(!accessToken){if(st)st.textContent='ローカルに保存しました';setTimeout(()=>{if(st)st.textContent=''},3000);return}
+  if(st)st.textContent='保存中…';
+  try{
+    await writeToSheet(currentId,text);
+    if(st)st.textContent='✓ 保存しました';
+  }catch(e){
+    console.error(e);
+    if(st)st.textContent='ローカルに保存しました';
+  }
+  setTimeout(()=>{if(st)st.textContent=''},3000);
+}
+
+async function writeToSheet(recipeId,memo){
+  const MEMO_SHEET='メモ';
+  const readRes=await fetch(
+    `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(MEMO_SHEET)}`,
+    {headers:{Authorization:`Bearer ${accessToken}`}}
+  );
+  const data=await readRes.json();
+  const rows=data.values||[];
+  let rowIndex=-1;
+  rows.forEach((row,i)=>{if(row[0]===recipeId)rowIndex=i});
+  const recipeName=DB.list.find(r=>r['ID']===recipeId)?.['レシピ名']||'';
+  const now=new Date().toLocaleString('ja-JP');
+  const values=[[recipeId,recipeName,memo,now]];
+  if(rowIndex>=0){
+    await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(MEMO_SHEET)}!A${rowIndex+1}:D${rowIndex+1}?valueInputOption=RAW`,
+      {method:'PUT',headers:{Authorization:`Bearer ${accessToken}`,'Content-Type':'application/json'},body:JSON.stringify({values})}
+    );
+  }else{
+    await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(MEMO_SHEET)}!A:D?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
+      {method:'POST',headers:{Authorization:`Bearer ${accessToken}`,'Content-Type':'application/json'},body:JSON.stringify({values})}
+    );
+  }
+}
+
+function handleLogin(){
+  if(typeof google==='undefined'){alert('Googleログイン機能を読み込み中です。少し待ってからお試しください');return}
+  const client=google.accounts.oauth2.initTokenClient({
+    client_id:CLIENT_ID,
+    scope:'https://www.googleapis.com/auth/spreadsheets',
+    callback:(resp)=>{
+      if(resp.error){console.error(resp);return}
+      accessToken=resp.access_token;
+      fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:`Bearer ${accessToken}`}})
+        .then(r=>r.json()).then(info=>{
+          document.getElementById('login-btn').textContent=(info.email||'').split('@')[0];
+        });
+      if(currentId)buildMemo();
+    }
+  });
+  client.requestAccessToken();
+}
+
 loadAll();
 </script>
 </body>
