@@ -328,35 +328,56 @@ function buildPairs(recipe){
   el.innerHTML=html+'</div>';
 }
 
-// Memo (GAS経由)
+// Memo (GAS経由・履歴対応)
+function fmtDate(iso){
+  if(!iso)return'';
+  try{
+    const d=new Date(iso);
+    return d.toLocaleDateString('ja-JP',{year:'numeric',month:'2-digit',day:'2-digit'})
+      +' '+d.toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});
+  }catch{return iso}
+}
+
 async function buildMemo(){
   const el=document.getElementById('d-memo');
   el.innerHTML=`<div class="sec"><div class="sec-title">調理メモ</div>
     <div class="memo-wrap">
-      <textarea class="memo-area" id="memo-text" placeholder="例：チリを半分にしたら美味しかった…"></textarea>
+      <div id="memo-history" style="padding:8px 14px 4px;font-size:12px;color:var(--text3)">読み込み中…</div>
+      <textarea class="memo-area" id="memo-text" placeholder="新しいメモを追加…"></textarea>
       <div class="memo-footer">
-        <span class="memo-saved" id="memo-status">読み込み中…</span>
-        <button class="memo-save-btn" onclick="saveMemo()">保存</button>
+        <span class="memo-saved" id="memo-status"></span>
+        <button class="memo-save-btn" onclick="saveMemo()">追加</button>
       </div>
     </div>
   </div>`;
   try{
     const res=await fetch(`${GAS_URL}?token=${GAS_TOKEN}&recipe_id=${currentId}`);
     const data=await res.json();
-    const ta=document.getElementById('memo-text');
-    if(ta)ta.value=data.memo||'';
-    const st=document.getElementById('memo-status');
-    if(st)st.textContent='';
+    const hist=document.getElementById('memo-history');
+    if(!hist)return;
+    if(!data.history||data.history.length===0){
+      hist.innerHTML='';
+      return;
+    }
+    let html='';
+    data.history.forEach(h=>{
+      html+=`<div style="border-bottom:1px solid var(--bg2);padding:8px 0">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:4px">${fmtDate(h.date)}</div>
+        <div style="font-size:13.5px;line-height:1.7;color:var(--text);white-space:pre-wrap">${h.memo}</div>
+      </div>`;
+    });
+    hist.innerHTML=html;
   }catch(e){
-    const st=document.getElementById('memo-status');
-    if(st)st.textContent='読み込み失敗';
+    const hist=document.getElementById('memo-history');
+    if(hist)hist.textContent='読み込み失敗';
     console.error(e);
   }
 }
 
 async function saveMemo(){
-  const text=document.getElementById('memo-text')?.value||'';
+  const text=(document.getElementById('memo-text')?.value||'').trim();
   const st=document.getElementById('memo-status');
+  if(!text){if(st)st.textContent='メモを入力してください';setTimeout(()=>{if(st)st.textContent=''},2000);return}
   if(st)st.textContent='保存中…';
   try{
     const res=await fetch(GAS_URL,{
@@ -365,8 +386,14 @@ async function saveMemo(){
       body:JSON.stringify({token:GAS_TOKEN,recipe_id:currentId,memo:text})
     });
     const data=await res.json();
-    if(data.ok){if(st)st.textContent='✓ 保存しました';}
-    else{if(st)st.textContent='保存失敗';}
+    if(data.ok){
+      if(st)st.textContent='✓ 追加しました';
+      const ta=document.getElementById('memo-text');
+      if(ta)ta.value='';
+      await buildMemo(); // 履歴を再読み込み
+    }else{
+      if(st)st.textContent='保存失敗';
+    }
   }catch(e){
     console.error(e);
     if(st)st.textContent='保存失敗';
