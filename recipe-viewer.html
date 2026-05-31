@@ -135,8 +135,7 @@ const SHEET_ID='1VuRBOKYV-fvpobttxzgJX3aPIw1uZ0pg6-dOoDfQ6Xs';
 const PUB='https://docs.google.com/spreadsheets/d/e/2PACX-1vSpskv7v6DrQyDkLjufOo9yyH8wL1MNyuyJHe1pVW7PUph2MahRzH40bgfmQpnfoiPMY84d6LZ1LYXd/pub?single=true&output=csv';
 const URLS={list:PUB+'&gid=0',ings:PUB+'&gid=1853146255',ri:PUB+'&gid=1744664315',steps:PUB+'&gid=1647512269'};
 let DB={list:[],ings:{},ri:{},steps:{}};
-let currentId=null,sv=2,accessToken=null;
-const BASE_SV=2.5;
+let currentId=null,sv=2,baseSv=2,accessToken=null;
 
 // Recent
 const RKEY='recipe_recent';
@@ -226,7 +225,7 @@ function onSearch(){
 // Detail
 function showDetail(id){
   const r=DB.list.find(r=>r['ID']===id);if(!r)return;
-  currentId=id;sv=Math.round(BASE_SV);
+  currentId=id;baseSv=parseInt(r['servings'])||2;sv=baseSv;
   addRecent(id,r['レシピ名']||'');
   document.getElementById('d-name').textContent=r['レシピ名']||'';
   document.getElementById('d-en').textContent=r['現地表記']||'';
@@ -265,7 +264,7 @@ function fmtN(n){
 function calcAmt(item){
   if(!item.amount)return item.note||'適量';
   const base=parseFloat(item.amount);if(isNaN(base))return item.amount;
-  const scaled=base*sv/BASE_SV,unit=item.unit||'';
+  const scaled=base*sv/baseSv,unit=item.unit||'';
   const suf=unit.match(/[強弱]/)?.[0]||'';
   return fmtN(scaled)+unit.replace(/[強弱]/g,'')+suf;
 }
