@@ -94,7 +94,7 @@
 <div id="app-header">
   <button id="back-btn" onclick="showList()">←</button>
   <div id="header-title">レシピビューワー</div>
-  <button id="login-btn" onclick="handleLogin()">Googleでログイン</button>
+
 </div>
 
 <div id="search-area">
@@ -128,14 +128,14 @@
   <button class="print-btn" onclick="window.print()">🖨️ このレシピを印刷（A4）</button>
 </div>
 
-<script src="https://accounts.google.com/gsi/client" async></script>
+
 <script>
-const CLIENT_ID='25592553973-g8rjs9t9ke1bqs9measq6d59ibqdieqj.apps.googleusercontent.com';
-const SHEET_ID='1VuRBOKYV-fvpobttxzgJX3aPIw1uZ0pg6-dOoDfQ6Xs';
+const GAS_URL="https://script.google.com/macros/s/AKfycbzZvQITZvk1YVhP_RZ5JaThQB6zZYOH_JQWBH6Xm59dB8PrKexhL2G18znk3rWCA-9p/exec";
+const GAS_TOKEN="recipe2026";
 const PUB='https://docs.google.com/spreadsheets/d/e/2PACX-1vSpskv7v6DrQyDkLjufOo9yyH8wL1MNyuyJHe1pVW7PUph2MahRzH40bgfmQpnfoiPMY84d6LZ1LYXd/pub?single=true&output=csv';
 const URLS={list:PUB+'&gid=0',ings:PUB+'&gid=1853146255',ri:PUB+'&gid=1744664315',steps:PUB+'&gid=1647512269'};
 let DB={list:[],ings:{},ri:{},steps:{}};
-let currentId=null,sv=2,baseSv=2,accessToken=null;
+let currentId=null,sv=2,baseSv=2;
 
 // Recent
 const RKEY='recipe_recent';
@@ -328,94 +328,50 @@ function buildPairs(recipe){
   el.innerHTML=html+'</div>';
 }
 
-// Memo
-function getMemoLocal(id){try{return JSON.parse(localStorage.getItem('memo_'+id)||'""')}catch{return''}}
-function setMemoLocal(id,text){localStorage.setItem('memo_'+id,JSON.stringify(text))}
-
-function buildMemo(){
+// Memo (GAS経由)
+async function buildMemo(){
   const el=document.getElementById('d-memo');
-  const saved=getMemoLocal(currentId);
-  if(!accessToken){
-    el.innerHTML=`<div class="sec"><div class="sec-title">調理メモ</div>
-      <div class="memo-wrap">
-        <div class="memo-login-prompt">
-          <p>メモをスプレッドシートに保存するにはGoogleログインが必要です</p>
-          <button class="memo-login-btn" onclick="handleLogin()">Googleでログイン</button>
-          ${saved?`<div style="margin-top:12px;text-align:left"><textarea class="memo-area" id="memo-text" placeholder="例：チリを半分にしたら美味しかった…">${saved}</textarea><div class="memo-footer"><span class="memo-saved" id="memo-status"></span><button class="memo-save-btn" onclick="saveMemo()">ローカルに保存</button></div></div>`:''}
-        </div>
-      </div>
-    </div>`;
-    return;
-  }
   el.innerHTML=`<div class="sec"><div class="sec-title">調理メモ</div>
     <div class="memo-wrap">
-      <textarea class="memo-area" id="memo-text" placeholder="例：チリを半分にしたら美味しかった…">${saved}</textarea>
+      <textarea class="memo-area" id="memo-text" placeholder="例：チリを半分にしたら美味しかった…"></textarea>
       <div class="memo-footer">
-        <span class="memo-saved" id="memo-status"></span>
+        <span class="memo-saved" id="memo-status">読み込み中…</span>
         <button class="memo-save-btn" onclick="saveMemo()">保存</button>
       </div>
     </div>
   </div>`;
+  try{
+    const res=await fetch(`${GAS_URL}?token=${GAS_TOKEN}&recipe_id=${currentId}`);
+    const data=await res.json();
+    const ta=document.getElementById('memo-text');
+    if(ta)ta.value=data.memo||'';
+    const st=document.getElementById('memo-status');
+    if(st)st.textContent='';
+  }catch(e){
+    const st=document.getElementById('memo-status');
+    if(st)st.textContent='読み込み失敗';
+    console.error(e);
+  }
 }
 
 async function saveMemo(){
   const text=document.getElementById('memo-text')?.value||'';
   const st=document.getElementById('memo-status');
-  setMemoLocal(currentId,text);
-  if(!accessToken){if(st)st.textContent='ローカルに保存しました';setTimeout(()=>{if(st)st.textContent=''},3000);return}
   if(st)st.textContent='保存中…';
   try{
-    await writeToSheet(currentId,text);
-    if(st)st.textContent='✓ 保存しました';
+    const res=await fetch(GAS_URL,{
+      method:'POST',
+      headers:{'Content-Type':'text/plain'},
+      body:JSON.stringify({token:GAS_TOKEN,recipe_id:currentId,memo:text})
+    });
+    const data=await res.json();
+    if(data.ok){if(st)st.textContent='✓ 保存しました';}
+    else{if(st)st.textContent='保存失敗';}
   }catch(e){
     console.error(e);
-    if(st)st.textContent='ローカルに保存しました';
+    if(st)st.textContent='保存失敗';
   }
-  setTimeout(()=>{if(st)st.textContent=''},3000);
-}
-
-async function writeToSheet(recipeId,memo){
-  const MEMO_SHEET='メモ';
-  const readRes=await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(MEMO_SHEET)}`,
-    {headers:{Authorization:`Bearer ${accessToken}`}}
-  );
-  const data=await readRes.json();
-  const rows=data.values||[];
-  let rowIndex=-1;
-  rows.forEach((row,i)=>{if(row[0]===recipeId)rowIndex=i});
-  const recipeName=DB.list.find(r=>r['ID']===recipeId)?.['レシピ名']||'';
-  const now=new Date().toLocaleString('ja-JP');
-  const values=[[recipeId,recipeName,memo,now]];
-  if(rowIndex>=0){
-    await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(MEMO_SHEET)}!A${rowIndex+1}:D${rowIndex+1}?valueInputOption=RAW`,
-      {method:'PUT',headers:{Authorization:`Bearer ${accessToken}`,'Content-Type':'application/json'},body:JSON.stringify({values})}
-    );
-  }else{
-    await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(MEMO_SHEET)}!A:D?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
-      {method:'POST',headers:{Authorization:`Bearer ${accessToken}`,'Content-Type':'application/json'},body:JSON.stringify({values})}
-    );
-  }
-}
-
-function handleLogin(){
-  if(typeof google==='undefined'){alert('Googleログイン機能を読み込み中です。少し待ってからお試しください');return}
-  const client=google.accounts.oauth2.initTokenClient({
-    client_id:CLIENT_ID,
-    scope:'https://www.googleapis.com/auth/spreadsheets',
-    callback:(resp)=>{
-      if(resp.error){console.error(resp);return}
-      accessToken=resp.access_token;
-      fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:`Bearer ${accessToken}`}})
-        .then(r=>r.json()).then(info=>{
-          document.getElementById('login-btn').textContent=(info.email||'').split('@')[0];
-        });
-      if(currentId)buildMemo();
-    }
-  });
-  client.requestAccessToken();
+  setTimeout(()=>{const st=document.getElementById('memo-status');if(st)st.textContent=''},3000);
 }
 
 loadAll();
